@@ -50,10 +50,20 @@
           </el-submenu>
           <el-submenu index="4">
             <template slot="title">
+              <i class="el-icon-star-off"></i>
+              <span>院校收藏</span>
+            </template>
+            <el-menu-item index="4-1">
+              <i class="el-icon-star-on"></i>
+              <router-link to="/school/schoolCollect" style="text-decoration: none; color: inherit;">收藏列表</router-link>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
               <i class="el-icon-setting"></i>
               <span>个人中心</span>
             </template>
-            <el-menu-item index="4-1">
+            <el-menu-item index="5-1">
               <i class="el-icon-thumb"></i>
               <router-link to="/user/userMsg" style="text-decoration: none; color: inherit;">个人信息</router-link>
             </el-menu-item>

@@ -4,27 +4,20 @@
       <el-form-item label="院校名称">
         <el-input v-model="queryData.schoolName" placeholder="请输入院校名称"></el-input>
       </el-form-item>
-      <el-form-item label="院校排名">
+      <!--<el-form-item label="院校排名">
         <el-input v-model="queryData.schoolRank" placeholder="请输入院校排名"></el-input>
-      </el-form-item>
+      </el-form-item>-->
       <el-form-item label="院校联系方式">
         <el-input v-model="queryData.schoolTel" placeholder="请输入院校联系方式"></el-input>
       </el-form-item>
       <el-form-item label="院校院网">
         <el-input v-model="queryData.schoolWebUrl" placeholder="请输入院校院网"></el-input>
       </el-form-item>
-      <!--<el-form-item label="账号状态">
-        <el-select v-model="queryData.enabled" placeholder="状态">
-          <el-option label="启用" value="true"></el-option>
-          <el-option label="停用" value="false"></el-option>
-        </el-select>
-      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" @click="getTableInfo">查询</el-button>
         <el-button @click="resetForm('queryData')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-button type="primary" icon="el-icon-plus" style="margin-left: 1500px;margin-bottom: 15px;" @click="addSchool()">新增院校</el-button>
     <el-card>
       <el-table class="el-table"
                 :data="tableData"
@@ -76,23 +69,12 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="collected"
-          label="是否收藏" align="center"
-          width="180">
-          <template slot-scope="scope">
-            <el-switch disabled
-                       v-model="scope.row.collected">
-            </el-switch>
-          </template>
-        </el-table-column>
-        <el-table-column
           fixed="right"
           label="操作" align="center"
           width="100">
           <template slot-scope="scope">
             <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
-            <el-button type="text" size="small" @click="editSchool(scope.row.id)">编辑</el-button>
-            <el-button type="text" size="small" v-if="scope.row.collected == false" @click="collectSchool(scope.row.id)">收藏</el-button>
+            <el-button type="text" size="small" @click="editSchool(scope.row.id)">取消收藏</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -110,8 +92,6 @@
 </template>
 
 <script>
-  import EditSchoolRank from '@/views/school/EditSchoolRank';
-  import AddSchool from '@/views/school/AddSchool';
   export default {
     inject: ['reload'],
     data() {
@@ -141,38 +121,10 @@
         this.queryData.size = 2;
         this.getTableInfo();
       },
-      addSchool: function () {
-        this.$layer.iframe({
-          type:1,
-          title:"新增院校",
-          area:['600px','500px'],
-          shade:true,
-          offset:'auto',
-          content:{
-            content:AddSchool
-          }
-        })
-      },
       editSchool: function (id) {
-        this.$layer.iframe({
-          type:2,
-          title:"编辑",
-          area:['600px','600px'],
-          shade:true,
-          offset:'auto',
-          content:{
-            content:EditSchoolRank,//传递的编辑组件主线
-            parent:this,
-            data:{
-              info:{id:id}// 传递的要编辑内容的id值
-            }
-          }
-        })
-      },
-      collectSchool: function (id) {
         var params = new URLSearchParams();
-        params.append("schoolId", id);
-        const url = "/schoolCollect/addSchoolCollect";
+        params.append("id", id);
+        const url = "/schoolCollect/updateSchoolCollect";
         this.$axios({
           method: 'post',
           url: url,
@@ -189,7 +141,7 @@
         console.log(row);
       },
       getTableInfo() {
-        this.$axios.get('/schoolRank/list', {params: this.queryData}).then((result) => {
+        this.$axios.get('/schoolCollect/list', {params: this.queryData}).then((result) => {
           let data = result.data;
           console.log(data)
           if (data.code != 200) {

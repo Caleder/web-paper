@@ -32,6 +32,7 @@
 <script>
   export default {
     name: "Login.vue",
+    inject: ['reload'],
     data() {
       return {
         pwdType:"password",
@@ -81,7 +82,7 @@
             } else {
               window.sessionStorage.setItem("token",result.data.headToken)
               window.sessionStorage.setItem("user",result.data.user)
-              window.sessionStorage.setItem("userAll",result.data.userAll)
+              /*window.sessionStorage.setItem("userAll",result.data.userAll)*/
               this.$message.success(result.message);
               this.$router.push('/main');
             }
@@ -96,6 +97,7 @@
             return false;
           }
         });
+        this.reload();
       },
       resetForm: function (loginForm) {
         this.$refs[loginForm].resetFields();
@@ -119,6 +121,7 @@
           )
           this.codeImg = codeImg
         })
+        /*this.reload();*/
       }
     }
   }

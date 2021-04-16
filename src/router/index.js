@@ -9,6 +9,7 @@ import UserMsg from '@/views/user/UserMsg';
 import Register from '@/views/Register';
 import SchoolList from '@/views/school/SchoolList';
 import SchoolApplyList from '@/views/school/SchoolApplyList';
+import SchoolCollect from '@/views/school/SchoolCollect';
 
 import NotFound from '@/views/404';
 
@@ -39,6 +40,7 @@ const router = new Router({
         {name: 'UserList', path: '/user/list', component: UserList},
         {name: 'SchoolList', path: '/school/schoolList', component: SchoolList},
         {name: 'SchoolApplyList', path: '/school/schoolApplyList', component: SchoolApplyList},
+        {name: 'SchoolCollect', path: '/school/schoolCollect', component: SchoolCollect},
         {name: 'UserMsg', path: '/user/userMsg', component: UserMsg}
       ]
     },

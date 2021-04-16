@@ -82,7 +82,9 @@
 
 <style scoped>
   .el-index {
-    margin: auto;
-    width: 500px;
+    /*margin: auto;*/
+    margin: 70px;
+    width: 400px;
+    text-align: center;
   }
 </style>
