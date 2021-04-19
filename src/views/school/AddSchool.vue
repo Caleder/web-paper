@@ -1,12 +1,21 @@
 <template>
   <!--表单组件-->
   <div class="el-index">
-    <el-form ref="form" :model="form" size="small" label-width="100px">
+    <el-form ref="form" :model="form" label-width="100px">
       <el-form-item label="院校名称" prop="schoolName">
-        <el-input v-model="form.schoolName" placeholder="请输入学院名称" style="width: 370px"/>
+        <el-input v-model="form.schoolName" placeholder="请输入院校名称" style="width: 370px"/>
       </el-form-item>
-      <el-form-item label="院校信息" prop="schoolContent">
-        <el-input v-model="form.schoolContent" placeholder="请输入院校信息" style="width: 370px"/>
+      <el-form-item label="院校所在地" prop="cityName">
+        <el-input v-model="form.cityName" placeholder="请输入院校所在地" style="width: 370px"/>
+      </el-form-item>
+      <el-form-item label="院校隶属" prop="affiliation">
+        <el-input v-model="form.affiliation" placeholder="请输入院校隶属" style="width: 370px"/>
+      </el-form-item>
+      <el-form-item label="院校等级" prop="grade">
+        <el-input v-model="form.grade" placeholder="请输入院校等级" style="width: 370px"/>
+      </el-form-item>
+      <el-form-item label="院校简介" prop="schoolContent">
+        <el-input v-model="form.schoolContent" placeholder="请输入院校简介" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校排名" prop="schoolRank">
         <el-input v-model="form.schoolRank" placeholder="请输入院校排名" controls-position="right" style="width: 370px;"/>
@@ -20,7 +29,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <!--<el-button type="text" @click="crud.cancelCU">取消</el-button>-->
-      <el-button type="primary" @click="addManage(form)">确认</el-button>
+      <el-button type="primary" @click="addManage(form)">立即提交</el-button>
     </div>
   </div>
 </template>
@@ -36,7 +45,10 @@
           schoolWebUrl: '',
           schoolTel: '',
           schoolRank: '',
-          schoolContent: ''
+          schoolContent: '',
+          grade: '',
+          affiliation: '',
+          cityName: ''
         }
       }
     },
@@ -49,8 +61,8 @@
     methods: {
       addManage(form) {
         if (!form.schoolName || !form.schoolRank
-          || !form.schoolContent || !form.schoolTel
-          || !form.schoolWebUrl) {
+          || !form.schoolContent || !form.schoolTel || !form.grade
+          || !form.schoolWebUrl || !form.cityName || !form.affiliation) {
           this.$layer.msg("请添加对应信息！");
         } else {
           this.$axios.post("/schoolRank/addSchoolRank", this.form)
@@ -61,13 +73,12 @@
                 this.$layer.close(this.layerid);
               }
               this.$layer.msg(data.data);
-              this.reload();
+              location.reload();
             });
         }
       }
     },
     created() {
-
     }
   }
 </script>
@@ -77,6 +88,7 @@
     /*margin: auto;*/
     margin: 70px;
     width: 400px;
+    height: 500px;
     text-align: center;
   }
 </style>

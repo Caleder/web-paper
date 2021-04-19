@@ -23,6 +23,18 @@
           <el-form-item prop="mobile">
             <el-input prefix-icon="el-icon-phone" placeholder="请输入手机号" v-model="loginForm.mobile"></el-input>
           </el-form-item>
+          <el-form-item prop="name">
+            <el-input prefix-icon="el-icon-user" placeholder="请输入姓名" v-model="loginForm.name"></el-input>
+          </el-form-item>
+          <el-form-item prop="motto">
+            <el-input prefix-icon="el-icon-edit-outline" placeholder="请输入座右铭" v-model="loginForm.motto"></el-input>
+          </el-form-item>
+          <el-form-item prop="role">
+            <el-select v-model="loginForm.role" placeholder="角色">
+              <el-option label="管理员" value="ADMIN"></el-option>
+              <el-option label="普通用户" value="OTHER"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item class="login-button">
             <el-button type="primary" @click="register('loginForm')">注册</el-button>
             <el-button @click="resetForm('loginForm')">重置</el-button>
@@ -44,7 +56,11 @@
           username: '',
           password: '',
           rePassword: '',
-          mobile: ''
+          mobile: '',
+          role: '',
+          name: '',
+          motto: '',
+          role: 'OTHER'
         },
         rules: {
           username: [
@@ -62,6 +78,10 @@
           mobile: [
             {required: true, message: '请输入手机号', trigger: 'blur'},
             {min: 11, max: 11, message: '长度在11字符', trigger: 'blur'}
+          ],
+          name: [
+            {required: true, message: '请输入姓名', trigger: 'blur'},
+            {min: 3, max: 16, message: '长度在1-6字符', trigger: 'blur'}
           ]
         },
         codeImg: ''
@@ -81,6 +101,8 @@
             return this.$message.error('请再次输入密码');
           } else if (this.loginForm.mobile == '' || this.loginForm.mobile == null) {
             return this.$message.error('请输入手机号');
+          } else if (this.loginForm.name == '' || this.loginForm.name == null) {
+            return this.$message.error('请输入姓名');
           }
           if(this.loginForm.password != this.loginForm.rePassword){
             return this.$message.error('两次输入密码不一致');
@@ -102,6 +124,8 @@
               return this.$message.error('请再次输入密码');
             } else if (this.loginForm.mobile == '' || this.loginForm.mobile == null) {
               return this.$message.error('请输入手机号');
+            } else if (this.loginForm.name == '' || this.loginForm.name == null) {
+              return this.$message.error('请输入姓名');
             }
             return false;
           }
@@ -143,7 +167,7 @@
   .login-container {
     text-align: left;
     width: 450px;
-    height: 350px;
+    height: 545px;
     border: 1px solid #DCDFE6;
     /*padding: 20px 50px 20px 20px;
     margin: 150px auto 0;*/
@@ -158,7 +182,7 @@
   .login-box {
     text-align: left;
     width: 450px;
-    height: 390px;
+    height: 565px;
     padding: 0px 50px 27px 4px;
     margin: 100px auto 0;
     transform: translate(-50%,-50%);

@@ -4,6 +4,9 @@
       <el-form-item label="院校名称">
         <el-input v-model="queryData.schoolName" placeholder="请输入院校名称"></el-input>
       </el-form-item>
+      <el-form-item label="院校所在地">
+        <el-input v-model="queryData.cityName" placeholder="请输入院校所在地"></el-input>
+      </el-form-item>
       <el-form-item label="院校排名">
         <el-input v-model="queryData.schoolRank" placeholder="请输入院校排名"></el-input>
       </el-form-item>
@@ -29,7 +32,7 @@
       <el-table class="el-table"
                 :data="tableData"
                 border
-                style="width: 97.5%;">
+                style="width: 100%;">
         <el-table-column
           prop="id" fixed
           label="ID" align="center"
@@ -38,6 +41,21 @@
         <el-table-column
           prop="schoolName" fixed
           label="院校名称" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="cityName" fixed
+          label="院校所在地" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="affiliation"
+          label="院校隶属" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="grade"
+          label="院校等级" align="center"
           width="150">
         </el-table-column>
         <el-table-column
@@ -68,19 +86,21 @@
         <el-table-column
           prop="enabled"
           label="状态" align="center"
-          width="180">
+          width="150">
           <template slot-scope="scope">
-            <el-switch disabled
-                       v-model="scope.row.enabled">
+            <el-switch v-model="scope.row.enabled" @change="makeEnabled(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column
           prop="collected"
           label="是否收藏" align="center"
-          width="180">
+          width="150">
           <template slot-scope="scope">
-            <el-switch disabled
+            <el-switch v-if="scope.row.collected === false" @change="makeCollected(scope.row.id)"
+                       v-model="scope.row.collected">
+            </el-switch>
+            <el-switch disabled v-else-if="scope.row.collected === true" @change="makeCollected(scope.row.id)"
                        v-model="scope.row.collected">
             </el-switch>
           </template>
@@ -88,11 +108,11 @@
         <el-table-column
           fixed="right"
           label="操作" align="center"
-          width="100">
+          width="200">
           <template slot-scope="scope">
-            <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
-            <el-button type="text" size="small" @click="editSchool(scope.row.id)">编辑</el-button>
-            <el-button type="text" size="small" v-if="scope.row.collected == false" @click="collectSchool(scope.row.id)">收藏</el-button>
+            <el-button @click="handleClick(scope.row)" icon="el-icon-message" type="info" size="small">查看</el-button>
+            <el-button type="success" size="small" icon="el-icon-edit" @click="editSchool(scope.row.id)">编辑</el-button>
+            <!--<el-button type="text" size="small" v-if="scope.row.collected == false" @click="collectSchool(scope.row.id)">收藏</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -100,7 +120,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryData.current"
-        :page-sizes="[1, 2, 5, 10]"
+        :page-sizes="[1, 5, 10, 15]"
         :page-size="queryData.size"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -123,9 +143,10 @@
           schoolTel: '',
           enabled: '',
           current: 1,
-          size: 2,
+          size: 5,
           schoolWebUrl: '',
-          schoolContent: ''
+          schoolContent: '',
+          cityName: ''
         },
         total: 0
       }
@@ -134,6 +155,16 @@
       this.getTableInfo();
     },
     methods: {
+      makeEnabled(schoolInfo) {
+        this.$axios.post("/schoolRank/updateSchoolRank", schoolInfo)
+          .then((result) => {
+            let data = result.data;
+            if (data.code != 200) {
+              this.$message.error(data.message);
+            }
+            /*this.reload();*/
+          });
+      },
       resetForm: function (queryData) {
         this[queryData] = {};
         this.$refs[queryData].resetFields();
@@ -145,7 +176,7 @@
         this.$layer.iframe({
           type:1,
           title:"新增院校",
-          area:['600px','500px'],
+          area:['600px','700px'],
           shade:true,
           offset:'auto',
           content:{
@@ -157,7 +188,7 @@
         this.$layer.iframe({
           type:2,
           title:"编辑",
-          area:['600px','600px'],
+          area:['600px','750px'],
           shade:true,
           offset:'auto',
           content:{
@@ -168,6 +199,22 @@
             }
           }
         })
+      },
+      makeCollected: function (id) {
+        var params = new URLSearchParams();
+        params.append("schoolId", id);
+        const url = "/schoolCollect/addSchoolCollect";
+        this.$axios({
+          method: 'post',
+          url: url,
+          data: params
+        }).then((result) => {
+          let data = result.data;
+          if (data.code != 200) {
+            this.$message.error(data.message);
+          }
+          /*this.reload();*/
+        });
       },
       collectSchool: function (id) {
         var params = new URLSearchParams();

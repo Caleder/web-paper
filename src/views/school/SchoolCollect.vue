@@ -22,7 +22,7 @@
       <el-table class="el-table"
                 :data="tableData"
                 border
-                style="width: 97.5%;">
+                style="width: 100%;">
         <el-table-column
           prop="id" fixed
           label="ID" align="center"
@@ -61,7 +61,7 @@
         <el-table-column
           prop="enabled"
           label="状态" align="center"
-          width="180">
+          width="150">
           <template slot-scope="scope">
             <el-switch disabled
                        v-model="scope.row.enabled">
@@ -71,10 +71,10 @@
         <el-table-column
           fixed="right"
           label="操作" align="center"
-          width="100">
+          width="130">
           <template slot-scope="scope">
             <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
-            <el-button type="text" size="small" @click="editSchool(scope.row.id)">取消收藏</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="small" @click="editSchool(scope.row.id)">取消收藏</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -82,7 +82,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryData.current"
-        :page-sizes="[1, 2, 5, 10]"
+        :page-sizes="[1, 5, 10, 15]"
         :page-size="queryData.size"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
@@ -103,7 +103,7 @@
           schoolTel: '',
           enabled: '',
           current: 1,
-          size: 2,
+          size: 5,
           schoolWebUrl: '',
           schoolContent: ''
         },

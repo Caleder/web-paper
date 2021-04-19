@@ -1,14 +1,23 @@
 <template>
   <div class="el-index">
-    <el-form ref="manage" :model="manage" label-width="80px">
+    <el-form ref="manage" :model="manage" label-width="100px">
       <el-form-item label="院校ID">
-        <el-input placeholder="院校ID" v-model="manage.id"/>
+        <el-input disabled placeholder="院校ID" v-model="manage.id"/>
       </el-form-item>
       <el-form-item label="院校名称">
         <el-input placeholder="学院名称" v-model="manage.schoolName"/>
       </el-form-item>
-      <el-form-item label="学院信息">
-        <el-input placeholder="学院信息" v-model="manage.schoolContent"/>
+      <el-form-item label="院校所在地" prop="cityName">
+        <el-input v-model="manage.cityName" placeholder="请输入院校所在地"/>
+      </el-form-item>
+      <el-form-item label="院校隶属" prop="affiliation">
+        <el-input v-model="manage.affiliation" placeholder="请输入院校隶属"/>
+      </el-form-item>
+      <el-form-item label="院校等级" prop="grade">
+        <el-input v-model="manage.grade" placeholder="请输入院校等级"/>
+      </el-form-item>
+      <el-form-item label="学院简介">
+        <el-input placeholder="学院简介" v-model="manage.schoolContent"/>
       </el-form-item>
       <el-form-item label="学院排名">
         <el-input placeholder="学院排名" v-model="manage.schoolRank"/>
@@ -58,9 +67,9 @@
       },
       editManage(manage) {
         if (!manage.schoolName || !manage.schoolRank
-          || !manage.schoolContent || !manage.schoolTel
-          || !manage.schoolWebUrl) {
-          this.$layer.msg("请添加对应信息！")
+          || !manage.schoolContent || !manage.schoolTel || !manage.grade
+          || !manage.schoolWebUrl || !manage.cityName || !manage.affiliation) {
+          this.$layer.msg("请添加对应信息！");
         } else {
           this.$axios.post("/schoolRank/updateSchoolRank", this.manage)
             .then((result) => {
@@ -85,6 +94,7 @@
     /*margin: auto;*/
     margin: 70px;
     width: 400px;
+    height: 500px;
     text-align: center;
   }
 </style>
