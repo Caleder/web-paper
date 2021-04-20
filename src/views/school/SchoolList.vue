@@ -44,12 +44,12 @@
           width="150">
         </el-table-column>
         <el-table-column
-          prop="schoolRank"
+          prop="schoolRank" fixed
           label="院校排名" align="center"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="cityName"
+          prop="cityName" fixed
           label="院校所在地" align="center"
           width="150">
         </el-table-column>
