@@ -11,16 +11,16 @@
         <el-input v-model="manage.schoolYear" placeholder="请输入学年" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校复试线" prop="schoolScore">
-        <el-input v-model="manage.schoolScore" placeholder="请输入院校复试线" style="width: 370px"/>
+        <el-input maxlength="7" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" v-model="manage.schoolScore" placeholder="请输入院校复试线" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校报名人数" prop="schoolApply">
-        <el-input v-model="manage.schoolApply" placeholder="请输入院校报名人数" style="width: 370px"/>
+        <el-input maxlength="7" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" v-model="manage.schoolApply" placeholder="请输入院校报名人数" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校录取人数" prop="schoolAdmit">
-        <el-input v-model="manage.schoolAdmit" placeholder="请输入院校录取人数" style="width: 370px"/>
+        <el-input maxlength="7" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" v-model="manage.schoolAdmit" placeholder="请输入院校录取人数" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校报录比(%)" prop="schoolApplyAdmit">
-        <el-input v-model="manage.schoolApplyAdmit" placeholder="请输入院校报录比(%)" style="width: 370px"/>
+        <el-input v-model="schoolApplyAdmit" readonly placeholder="请输入院校报录比(%)" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="初复试资料" prop="schoolFile">
         <el-input v-model="manage.schoolFile" placeholder="请输入初复试资料" controls-position="right" style="width: 370px;"/>
@@ -45,8 +45,7 @@
     inject: ['reload'],
     data() {
       return {
-        manage: {},
-        form: {}
+        manage: {}
       }
     },
     props: {
@@ -60,6 +59,14 @@
       layerid: {
         type: String,
         default: ""
+      }
+    },
+    computed: {
+      schoolApplyAdmit(){
+        let num = (parseFloat(this.manage.schoolApply) / parseFloat(this.manage.schoolAdmit))*100;
+        let number = num.toFixed(2);
+        this.manage.schoolApplyAdmit = number;
+        return number+"%";
       }
     },
     methods: {
@@ -80,6 +87,11 @@
           || !manage.schoolFile || !manage.beginRepeat || !manage.schoolYear) {
           this.$layer.msg("请添加对应信息！");
         } else {
+          if(manage.beginRepeat === '初试'){
+            this.manage.beginRepeat = true;
+          } else {
+            this.manage.beginRepeat = false;
+          }
           this.$axios.post("/schoolScore/updateSchoolScore", this.manage)
             .then((result) => {
               //关闭父组件中的编辑弹框

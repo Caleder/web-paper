@@ -5,6 +5,9 @@
       <el-form-item label="院校名称" prop="schoolName">
         <el-input v-model="form.schoolName" placeholder="请输入院校名称" style="width: 370px"/>
       </el-form-item>
+      <el-form-item label="院校排名" prop="schoolRank">
+        <el-input v-model="form.schoolRank" placeholder="请输入院校排名" controls-position="right" style="width: 370px;"/>
+      </el-form-item>
       <el-form-item label="院校所在地" prop="cityName">
         <el-input v-model="form.cityName" placeholder="请输入院校所在地" style="width: 370px"/>
       </el-form-item>
@@ -14,17 +17,14 @@
       <el-form-item label="院校等级" prop="grade">
         <el-input v-model="form.grade" placeholder="请输入院校等级" style="width: 370px"/>
       </el-form-item>
-      <el-form-item label="院校简介" prop="schoolContent">
-        <el-input v-model="form.schoolContent" placeholder="请输入院校简介" style="width: 370px"/>
-      </el-form-item>
-      <el-form-item label="院校排名" prop="schoolRank">
-        <el-input v-model="form.schoolRank" placeholder="请输入院校排名" controls-position="right" style="width: 370px;"/>
+      <el-form-item label="院校院网" prop="schoolWebUrl">
+        <el-input v-model="form.schoolWebUrl" placeholder="请输入院校院网" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校联系方式" prop="schoolTel">
         <el-input v-model="form.schoolTel" placeholder="请输入院校联系方式" style="width: 370px"/>
       </el-form-item>
-      <el-form-item label="院校院网" prop="schoolWebUrl">
-        <el-input v-model="form.schoolWebUrl" placeholder="请输入院校院网" style="width: 370px"/>
+      <el-form-item label="院校简介" prop="schoolContent">
+        <el-input v-model="form.schoolContent" placeholder="请输入院校简介" style="width: 370px"/>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">

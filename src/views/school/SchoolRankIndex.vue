@@ -5,31 +5,28 @@
         <el-input disabled placeholder="院校ID" v-model="manage.id"/>
       </el-form-item>
       <el-form-item label="院校名称">
-        <el-input placeholder="学院名称" v-model="manage.schoolName"/>
+        <el-input readonly placeholder="学院名称" v-model="manage.schoolName"/>
       </el-form-item>
       <el-form-item label="学院排名">
-        <el-input placeholder="学院排名" v-model="manage.schoolRank"/>
+        <el-input readonly placeholder="学院排名" v-model="manage.schoolRank"/>
       </el-form-item>
       <el-form-item label="院校所在地" prop="cityName">
-        <el-input v-model="manage.cityName" placeholder="请输入院校所在地"/>
+        <el-input readonly v-model="manage.cityName" placeholder="请输入院校所在地"/>
       </el-form-item>
       <el-form-item label="院校隶属" prop="affiliation">
-        <el-input v-model="manage.affiliation" placeholder="请输入院校隶属"/>
+        <el-input readonly v-model="manage.affiliation" placeholder="请输入院校隶属"/>
       </el-form-item>
       <el-form-item label="院校等级" prop="grade">
-        <el-input v-model="manage.grade" placeholder="请输入院校等级"/>
+        <el-input readonly v-model="manage.grade" placeholder="请输入院校等级"/>
       </el-form-item>
       <el-form-item label="学院院网">
-        <el-input placeholder="学院院网" v-model="manage.schoolWebUrl"/>
+        <el-input readonly placeholder="学院院网" v-model="manage.schoolWebUrl"/>
       </el-form-item>
       <el-form-item label="学院电话">
-        <el-input placeholder="学院电话" v-model="manage.schoolTel"/>
+        <el-input readonly placeholder="学院电话" v-model="manage.schoolTel"/>
       </el-form-item>
       <el-form-item label="学院简介">
-        <el-input placeholder="学院简介" v-model="manage.schoolContent"/>
-      </el-form-item>
-      <el-form-item class="login-button">
-        <el-button type="primary" @click="editManage(manage)">立即提交</el-button>
+        <el-input readonly placeholder="学院简介" v-model="manage.schoolContent"/>
       </el-form-item>
     </el-form>
   </div>
@@ -37,8 +34,7 @@
 
 <script>
   export default {
-    name: 'EditSchoolRank',
-    inject: ['reload'],
+    name: 'SchoolRankIndex',
     data() {
       return {
         manage: {},
@@ -64,22 +60,6 @@
         this.$axios.get('/schoolRank/getSchoolRank/' + id).then((result) => {
           this.manage = result.data.data;
         });
-      },
-      editManage(manage) {
-        if (!manage.schoolName || !manage.schoolRank
-          || !manage.schoolContent || !manage.schoolTel || !manage.grade
-          || !manage.schoolWebUrl || !manage.cityName || !manage.affiliation) {
-          this.$layer.msg("请添加对应信息！");
-        } else {
-          this.$axios.post("/schoolRank/updateSchoolRank", this.manage)
-            .then((result) => {
-              //关闭父组件中的编辑弹框
-              this.$layer.close(this.layerid);
-              //弹出提示信息，默认时间为3秒
-              this.$layer.msg("修改院校信息成功！");
-              this.reload();
-            });
-        }
       }
     },
     created() {

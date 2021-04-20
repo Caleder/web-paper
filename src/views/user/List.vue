@@ -24,7 +24,7 @@
         <el-button @click="resetForm('queryData')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-button type="primary" icon="el-icon-plus" style="margin-left: 1500px;margin-bottom: 15px;" @click="addUser()">新增用户</el-button>
+    <el-button v-if="role === 'ADMIN'" type="primary" icon="el-icon-plus" style="margin-left: 1500px;margin-bottom: 15px;" @click="addUser()">新增用户</el-button>
     <el-card>
       <el-table class="el-table"
                 :data="tableData"
@@ -36,23 +36,23 @@
           width="250">
         </el-table-column>
         <el-table-column
-          prop="name" fixed
-          label="姓名" align="center"
-          width="150">
-        </el-table-column>
-        <el-table-column
           prop="username" fixed
           label="用户名" align="center"
           width="150">
         </el-table-column>
         <el-table-column
-          prop="mobile"
-          label="手机号" align="center"
-          width="200">
+          prop="name" fixed
+          label="姓名" align="center"
+          width="150">
         </el-table-column>
         <el-table-column
           prop="motto"
           label="座右铭" align="center"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="mobile"
+          label="手机号" align="center"
           width="200">
         </el-table-column>
         <el-table-column
@@ -65,17 +65,20 @@
           label="状态" align="center"
           width="180">
           <template slot-scope="scope">
-            <el-switch @change="makeEnabled(scope.row)"
+            <el-switch v-if="role === 'ADMIN'" @change="makeEnabled(scope.row)"
+              v-model="scope.row.enabled">
+            </el-switch>
+            <el-switch disabled v-else-if="role === 'OTHER'"
               v-model="scope.row.enabled">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column
-          fixed="right"
+          fixed="right" v-if="role === 'ADMIN'"
           label="操作" align="center"
           width="120">
           <template slot-scope="scope">
-            <el-button type="success" icon="el-icon-edit" v-if="scope.row.enabled === true" size="small" @click="editUser(scope.row.username)">编辑</el-button>
+            <el-button type="success" icon="el-icon-edit" v-if="scope.row.enabled === true && role === 'ADMIN'" size="small" @click="editUser(scope.row.username)">编辑</el-button>
             <el-button disabled type="warning" v-if="scope.row.enabled === false" size="small">激活状态</el-button>
           </template>
         </el-table-column>
@@ -109,7 +112,8 @@
           size: 5,
           mobile: ''
         },
-        total: 0
+        total: 0,
+        role: window.sessionStorage.getItem("userRole")
       }
     },
     mounted() {
@@ -130,7 +134,7 @@
         this[queryData] = {};
         this.$refs[queryData].resetFields();
         this.queryData.current = 1;
-        this.queryData.size = 2;
+        this.queryData.size = 5;
         this.getTableInfo();
       },
     addUser: function () {

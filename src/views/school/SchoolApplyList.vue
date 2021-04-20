@@ -35,7 +35,7 @@
         <el-button @click="resetForm('queryData')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-button type="primary" icon="el-icon-plus" style="margin-left: 1450px;margin-bottom: 15px;" @click="addSchoolScore()">新增院校初复试</el-button>
+    <el-button v-if="role === 'ADMIN'" type="primary" icon="el-icon-plus" style="margin-left: 1450px;margin-bottom: 15px;" @click="addSchoolScore()">新增院校初复试</el-button>
     <el-card>
       <el-table class="el-table"
                 :data="tableData"
@@ -101,13 +101,16 @@
           label="状态" align="center"
           width="150">
           <template slot-scope="scope">
-            <el-switch @change="makeEnabled(scope.row)"
+            <el-switch v-if="role === 'ADMIN'" @change="makeEnabled(scope.row)"
+                       v-model="scope.row.enabled">
+            </el-switch>
+            <el-switch disabled v-else-if="role === 'OTHER'"
                        v-model="scope.row.enabled">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column
-          fixed="right"
+          fixed="right" v-if="role === 'ADMIN'"
           label="操作" align="center"
           width="120">
           <template slot-scope="scope">
@@ -148,7 +151,8 @@
           schoolYear: ''
         },
         total: 0,
-        schoolYearList: []
+        schoolYearList: [],
+        role: window.sessionStorage.getItem("userRole")
       }
     },
     created() {
@@ -206,7 +210,7 @@
         this[queryData] = {};
         this.$refs[queryData].resetFields();
         this.queryData.current = 1;
-        this.queryData.size = 2;
+        this.queryData.size = 5;
         this.getTableInfo();
       },
       handleClick(row) {

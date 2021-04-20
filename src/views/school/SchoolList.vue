@@ -27,7 +27,7 @@
         <el-button @click="resetForm('queryData')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-button type="primary" icon="el-icon-plus" style="margin-left: 1500px;margin-bottom: 15px;" @click="addSchool()">新增院校</el-button>
+    <el-button v-if="role === 'ADMIN'" type="primary" icon="el-icon-plus" style="margin-left: 1500px;margin-bottom: 15px;" @click="addSchool()">新增院校</el-button>
     <el-card>
       <el-table class="el-table"
                 :data="tableData"
@@ -44,7 +44,12 @@
           width="150">
         </el-table-column>
         <el-table-column
-          prop="cityName" fixed
+          prop="schoolRank"
+          label="院校排名" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="cityName"
           label="院校所在地" align="center"
           width="150">
         </el-table-column>
@@ -59,14 +64,9 @@
           width="150">
         </el-table-column>
         <el-table-column
-          prop="schoolContent"
-          label="院校信息" align="center"
+          prop="schoolWebUrl"
+          label="院校院网" align="center"
           width="200">
-        </el-table-column>
-        <el-table-column
-          prop="schoolRank"
-          label="院校排名" align="center"
-          width="150">
         </el-table-column>
         <el-table-column
           prop="schoolTel"
@@ -74,8 +74,8 @@
           width="200">
         </el-table-column>
         <el-table-column
-          prop="schoolWebUrl"
-          label="院校院网" align="center"
+          prop="schoolContent"
+          label="院校简介" align="center"
           width="200">
         </el-table-column>
         <el-table-column
@@ -88,7 +88,11 @@
           label="状态" align="center"
           width="150">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.enabled" @change="makeEnabled(scope.row)">
+            <el-switch v-if="role === 'ADMIN'" @change="makeEnabled(scope.row)"
+                       v-model="scope.row.enabled">
+            </el-switch>
+            <el-switch disabled v-else-if="role === 'OTHER'"
+                       v-model="scope.row.enabled">
             </el-switch>
           </template>
         </el-table-column>
@@ -110,8 +114,8 @@
           label="操作" align="center"
           width="200">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" icon="el-icon-message" type="info" size="small">查看</el-button>
-            <el-button type="success" size="small" icon="el-icon-edit" @click="editSchool(scope.row.id)">编辑</el-button>
+            <el-button @click="handleClick(scope.row.id)" icon="el-icon-message" type="info" size="small">查看</el-button>
+            <el-button v-if="role === 'ADMIN'" type="success" size="small" icon="el-icon-edit" @click="editSchool(scope.row.id)">编辑</el-button>
             <!--<el-button type="text" size="small" v-if="scope.row.collected == false" @click="collectSchool(scope.row.id)">收藏</el-button>-->
           </template>
         </el-table-column>
@@ -131,6 +135,7 @@
 
 <script>
   import EditSchoolRank from '@/views/school/EditSchoolRank';
+  import SchoolRankIndex from '@/views/school/SchoolRankIndex';
   import AddSchool from '@/views/school/AddSchool';
   export default {
     inject: ['reload'],
@@ -148,7 +153,8 @@
           schoolContent: '',
           cityName: ''
         },
-        total: 0
+        total: 0,
+        role: window.sessionStorage.getItem("userRole")
       }
     },
     mounted() {
@@ -169,7 +175,7 @@
         this[queryData] = {};
         this.$refs[queryData].resetFields();
         this.queryData.current = 1;
-        this.queryData.size = 2;
+        this.queryData.size = 5;
         this.getTableInfo();
       },
       addSchool: function () {
@@ -232,8 +238,21 @@
           this.reload();
         });
       },
-      handleClick(row) {
-        console.log(row);
+      handleClick(id) {
+        this.$layer.iframe({
+          type:2,
+          title:"详情",
+          area:['600px','750px'],
+          shade:true,
+          offset:'auto',
+          content:{
+            content:SchoolRankIndex,//传递的编辑组件主线
+            parent:this,
+            data:{
+              info:{id:id}// 传递的要编辑内容的id值
+            }
+          }
+        })
       },
       getTableInfo() {
         this.$axios.get('/schoolRank/list', {params: this.queryData}).then((result) => {

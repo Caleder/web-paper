@@ -118,7 +118,7 @@
         this[queryData] = {};
         this.$refs[queryData].resetFields();
         this.queryData.current = 1;
-        this.queryData.size = 2;
+        this.queryData.size = 5;
         this.getTableInfo();
       },
       editSchool: function (id) {

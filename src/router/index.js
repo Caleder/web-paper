@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Main from '@/views/Main';
 import Login from '@/views/Login';
+import Indexs from '@/views/Index';
 
 import UserList from '@/views/user/List';
 import UserMsg from '@/views/user/UserMsg';
@@ -37,6 +38,12 @@ const router = new Router({
       path: '/main',
       component: Main,
       children: [
+        {
+          name: 'Indexs', path: '/index', component: Indexs, meta: {
+            title: '首页',
+            activeMenu: '/index'
+          }
+        },
         {name: 'UserList', path: '/user/list', component: UserList},
         {name: 'SchoolList', path: '/school/schoolList', component: SchoolList},
         {name: 'SchoolApplyList', path: '/school/schoolApplyList', component: SchoolApplyList},
@@ -52,21 +59,20 @@ const router = new Router({
 })
 
 /*挂载路由导航守卫*/
-router.beforeEach((to,from,next) => {
+router.beforeEach((to, from, next) => {
   //to:  将要访问的路径
   // from:  从哪个路径跳转而来
   // next:  是一个函数，表示放行  next()放行;  next("/login"): 强制跳转
-  if(to.path === '/login' || to.path === '/register'){
+  if (to.path === '/login' || to.path === '/register') {
     return next();
   }
   const token = window.sessionStorage.getItem("token");
-  if(!token){
+  if (!token) {
     return next('/login');
   } else {
     return next();
   }
 })
-
 
 
 export default router

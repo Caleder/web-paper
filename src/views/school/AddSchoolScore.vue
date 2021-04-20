@@ -11,16 +11,16 @@
         <el-input v-model="form.schoolYear" placeholder="请输入学年" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校复试线" prop="schoolScore">
-        <el-input v-model="form.schoolScore" placeholder="请输入院校复试线" style="width: 370px"/>
+        <el-input maxlength="7" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" v-model.number="form.schoolScore" placeholder="请输入院校复试线" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校报名人数" prop="schoolApply">
-        <el-input v-model="form.schoolApply" placeholder="请输入院校报名人数" style="width: 370px"/>
+        <el-input maxlength="7" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" v-model.number="form.schoolApply" placeholder="请输入院校报名人数" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校录取人数" prop="schoolAdmit">
-        <el-input v-model="form.schoolAdmit" placeholder="请输入院校录取人数" style="width: 370px"/>
+        <el-input maxlength="7" onKeypress="return(/[\d]/.test(String.fromCharCode(event.keyCode)))" v-model.number="form.schoolAdmit" placeholder="请输入院校录取人数" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="院校报录比(%)" prop="schoolApplyAdmit">
-        <el-input v-model="form.schoolApplyAdmit" placeholder="请输入院校报录比(%)" style="width: 370px"/>
+        <el-input readonly v-model="schoolApplyAdmit === 'NaN%' ? '0%' : schoolApplyAdmit" placeholder="请输入院校报录比(%)" style="width: 370px"/>
       </el-form-item>
       <el-form-item label="初复试资料" prop="schoolFile">
         <el-input v-model="form.schoolFile" placeholder="请输入初复试资料" controls-position="right" style="width: 370px;"/>
@@ -64,10 +64,18 @@
         default: ""
       }
     },
+    computed: {
+      schoolApplyAdmit(){
+        let num = (parseFloat(this.form.schoolApply) / parseFloat(this.form.schoolAdmit))*100;
+        let number = num.toFixed(2);
+        this.form.schoolApplyAdmit = number;
+        return number+"%";
+      }
+    },
     methods: {
       addManage(form) {
         if (!form.schoolId || !form.schoolScore
-          || !form.schoolApply || !form.schoolAdmit || !form.schoolApplyAdmit
+          || !form.schoolApply || !form.schoolAdmit
           || !form.schoolFile || !form.beginRepeat || !form.schoolYear) {
           this.$layer.msg("请添加对应信息！");
         } else {

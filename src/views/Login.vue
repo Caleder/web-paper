@@ -85,7 +85,7 @@
               window.sessionStorage.setItem("userRole",result.data.userRole)
               /*window.sessionStorage.setItem("userAll",result.data.userAll)*/
               this.$message.success(result.message);
-              this.$router.push('/main');
+              this.$router.push('/index');
             }
           } else {
             if (this.loginForm.username == '' || this.loginForm.username == null) {
