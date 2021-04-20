@@ -4,9 +4,9 @@
       <el-form-item label="院校名称">
         <el-input v-model="queryData.schoolName" placeholder="请输入院校名称"></el-input>
       </el-form-item>
-      <!--<el-form-item label="院校排名">
-        <el-input v-model="queryData.schoolRank" placeholder="请输入院校排名"></el-input>
-      </el-form-item>-->
+      <el-form-item label="用户名">
+        <el-input v-model="queryData.userName" placeholder="请输入用户名"></el-input>
+      </el-form-item>
       <el-form-item label="院校联系方式">
         <el-input v-model="queryData.schoolTel" placeholder="请输入院校联系方式"></el-input>
       </el-form-item>
@@ -27,6 +27,11 @@
           prop="id" fixed
           label="ID" align="center"
           width="250">
+        </el-table-column>
+        <el-table-column
+          prop="username" fixed
+          label="用户名" align="center"
+          width="150">
         </el-table-column>
         <el-table-column
           prop="schoolName" fixed
@@ -105,7 +110,9 @@
           current: 1,
           size: 5,
           schoolWebUrl: '',
-          schoolContent: ''
+          schoolContent: '',
+          userId: '',
+          userName: ''
         },
         total: 0
       }
@@ -141,6 +148,13 @@
         console.log(row);
       },
       getTableInfo() {
+        let role = window.sessionStorage.getItem("userRole");
+        console.log(role)
+        if(role === 'ADMIN'){
+          this.queryData.userId = '';
+        } else {
+          this.queryData.userId = window.sessionStorage.getItem("userId")
+        }
         this.$axios.get('/schoolCollect/list', {params: this.queryData}).then((result) => {
           let data = result.data;
           console.log(data)

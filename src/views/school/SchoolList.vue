@@ -77,6 +77,12 @@
           prop="schoolContent"
           label="院校简介" align="center"
           width="200">
+          <template slot-scope="scope">
+            <el-tooltip placement="top">
+              <div style="width: 150px;" slot="content">{{scope.row.schoolContent}}</div>
+              <el-button style="width: 200px;border: #EAEDF1 0 solid">{{scope.row.schoolContent}}</el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column
           prop="gmtCreate"
@@ -182,7 +188,7 @@
         this.$layer.iframe({
           type:1,
           title:"新增院校",
-          area:['600px','700px'],
+          area:['600px','770px'],
           shade:true,
           offset:'auto',
           content:{
@@ -194,7 +200,7 @@
         this.$layer.iframe({
           type:2,
           title:"编辑",
-          area:['600px','750px'],
+          area:['600px','770px'],
           shade:true,
           offset:'auto',
           content:{

@@ -26,7 +26,9 @@
         <el-input placeholder="学院电话" v-model="manage.schoolTel"/>
       </el-form-item>
       <el-form-item label="学院简介">
-        <el-input placeholder="学院简介" v-model="manage.schoolContent"/>
+        <textarea autocomplete="off" rows="3" v-model="manage.schoolContent"
+                  placeholder="学院简介" maxlength="500" class="el-textarea__inner"
+                  style="min-height: 31px;"/>
       </el-form-item>
       <el-form-item class="login-button">
         <el-button type="primary" @click="editManage(manage)">立即提交</el-button>
@@ -96,5 +98,22 @@
     width: 400px;
     height: 500px;
     text-align: center;
+  }
+  .el-textarea__inner {
+    display: block;
+    resize: vertical;
+    padding: 5px 15px;
+    line-height: 1.5;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: inherit;
+    color: #606266;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
   }
 </style>

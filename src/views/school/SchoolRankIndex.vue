@@ -26,7 +26,9 @@
         <el-input readonly placeholder="学院电话" v-model="manage.schoolTel"/>
       </el-form-item>
       <el-form-item label="学院简介">
-        <el-input readonly placeholder="学院简介" v-model="manage.schoolContent"/>
+        <textarea readonly autocomplete="off" rows="3" v-model="manage.schoolContent"
+                  placeholder="学院简介" maxlength="500" class="el-textarea__inner"
+                  style="min-height: 31px;"/>
       </el-form-item>
     </el-form>
   </div>

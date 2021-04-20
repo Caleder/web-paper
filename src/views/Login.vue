@@ -83,7 +83,7 @@
               window.sessionStorage.setItem("token",result.data.headToken)
               window.sessionStorage.setItem("user",result.data.user)
               window.sessionStorage.setItem("userRole",result.data.userRole)
-              /*window.sessionStorage.setItem("userAll",result.data.userAll)*/
+              window.sessionStorage.setItem("userId",result.data.userId)
               this.$message.success(result.message);
               this.$router.push('/index');
             }
