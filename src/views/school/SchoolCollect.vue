@@ -38,11 +38,11 @@
           label="院校名称" align="center"
           width="150">
         </el-table-column>
-        <el-table-column
+        <!--<el-table-column
           prop="schoolContent"
           label="院校信息" align="center"
           width="200">
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
           prop="schoolRank"
           label="院校排名" align="center"
