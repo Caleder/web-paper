@@ -10,11 +10,17 @@
       <el-form-item label="ID：" style="text-align: left;">
         <span>{{id}}</span>
       </el-form-item>
+      <el-form-item label="姓名：" style="text-align: left;">
+        <span>{{name}}</span>
+      </el-form-item>
       <el-form-item label="用户名：" style="text-align: left;">
         <span>{{username}}</span>
       </el-form-item>
       <el-form-item label="手机号：" style="text-align: left">
         <span>{{mobile}}</span>
+      </el-form-item>
+      <el-form-item label="座右铭：" style="text-align: left">
+        <span>{{motto}}</span>
       </el-form-item>
       <el-form-item label="创建时间：">
         <span :formatter="dateFormatCreate">{{gmtCreate}}</span>
@@ -23,6 +29,10 @@
         <span type="password">******</span>
         <el-button type="primary" size="small" icon="el-icon-edit"
                    style="margin-left: 30px;margin-bottom: 15px;" @click="editPwd(id,username)">修改密码</el-button>
+      </el-form-item>
+      <el-form-item label="用户身份：" style="text-align: left">
+        <span v-if="role === 'ADMIN'">管理员</span>
+        <span v-if="role !== 'ADMIN'">普通用户</span>
       </el-form-item>
     </el-form>
   </div>
@@ -38,7 +48,10 @@
         gmtCreate: '',
         mobile: '',
         password: '',
-        username: window.sessionStorage.getItem('user')
+        name: '',
+        motto: '',
+        username: window.sessionStorage.getItem('user'),
+        role: window.sessionStorage.getItem('userRole')
       }
     },
     mounted() {
@@ -75,6 +88,8 @@
           this.username = res.data.username;
           this.mobile = res.data.mobile;
           this.password = res.data.password;
+          this.name = res.data.name;
+          this.motto = res.data.motto;
           let gmtCreate = res.data.gmtCreate;
           const t = new Date(gmtCreate);
           const i = t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate() + " " + t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds();

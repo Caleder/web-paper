@@ -3,7 +3,8 @@ import Router from 'vue-router';
 
 import Main from '@/views/Main';
 import Login from '@/views/Login';
-import Indexs from '@/views/Index';
+import OtherIndex from '@/views/OtherIndex';
+import AdminIndex from '@/views/AdminIndex';
 
 import UserList from '@/views/user/List';
 import UserMsg from '@/views/user/UserMsg';
@@ -11,6 +12,8 @@ import Register from '@/views/Register';
 import SchoolList from '@/views/school/SchoolList';
 import SchoolApplyList from '@/views/school/SchoolApplyList';
 import SchoolCollect from '@/views/school/SchoolCollect';
+import SchoolBeginList from '@/views/school/SchoolBeginList';
+import SchoolRepeatList from '@/views/school/SchoolRepeatList';
 
 import NotFound from '@/views/404';
 
@@ -39,14 +42,16 @@ const router = new Router({
       component: Main,
       children: [
         {
-          name: 'Indexs', path: '/index', component: Indexs, meta: {
-            title: '首页',
-            activeMenu: '/index'
-          }
+          name: 'OtherIndex', path: '/otherIndex', component: OtherIndex
+        },
+        {
+          name: 'AdminIndex', path: '/adminIndex', component: AdminIndex
         },
         {name: 'UserList', path: '/user/list', component: UserList},
         {name: 'SchoolList', path: '/school/schoolList', component: SchoolList},
         {name: 'SchoolApplyList', path: '/school/schoolApplyList', component: SchoolApplyList},
+        {name: 'SchoolBeginList', path: '/school/schoolBeginList', component: SchoolBeginList},
+        {name: 'SchoolRepeatList', path: '/school/schoolRepeatList', component: SchoolRepeatList},
         {name: 'SchoolCollect', path: '/school/schoolCollect', component: SchoolCollect},
         {name: 'UserMsg', path: '/user/userMsg', component: UserMsg}
       ]

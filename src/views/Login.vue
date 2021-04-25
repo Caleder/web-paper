@@ -85,7 +85,11 @@
               window.sessionStorage.setItem("userRole",result.data.userRole)
               window.sessionStorage.setItem("userId",result.data.userId)
               this.$message.success(result.message);
-              this.$router.push('/index');
+              if(result.data.userRole === 'ADMIN'){
+                this.$router.push('/adminIndex');
+              } else {
+                this.$router.push('/otherIndex');
+              }
             }
           } else {
             if (this.loginForm.username == '' || this.loginForm.username == null) {

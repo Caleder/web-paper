@@ -2,16 +2,22 @@
   <div>
     <el-form :inline="true" ref="queryData" :model="queryData" class="demo-form-inline">
       <el-form-item label="院校名称">
-        <el-input v-model="queryData.schoolName" placeholder="请输入院校名称"></el-input>
+        <el-input style="width: 150px;" v-model="queryData.schoolName" placeholder="请输入院校名称"></el-input>
       </el-form-item>
       <el-form-item label="用户名">
-        <el-input v-model="queryData.userName" placeholder="请输入用户名"></el-input>
+        <el-input style="width: 150px;" v-model="queryData.userName" placeholder="请输入用户名"></el-input>
       </el-form-item>
-      <el-form-item label="院校联系方式">
-        <el-input v-model="queryData.schoolTel" placeholder="请输入院校联系方式"></el-input>
+      <el-form-item label="院校所在地">
+        <el-input style="width: 150px;" v-model="queryData.cityName" placeholder="请输入院校所在地"></el-input>
       </el-form-item>
-      <el-form-item label="院校院网">
-        <el-input v-model="queryData.schoolWebUrl" placeholder="请输入院校院网"></el-input>
+      <el-form-item label="院校排名">
+        <el-input style="width: 150px;" v-model="queryData.schoolRank" placeholder="请输入院校排名"></el-input>
+      </el-form-item>
+      <el-form-item label="院校隶属">
+        <el-input style="width: 150px;" v-model="queryData.affiliation" placeholder="请输入院校隶属"></el-input>
+      </el-form-item>
+      <el-form-item label="院校等级">
+        <el-input style="width: 150px;" v-model="queryData.grade" placeholder="请输入院校等级"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getTableInfo">查询</el-button>
@@ -36,6 +42,21 @@
         <el-table-column
           prop="schoolName" fixed
           label="院校名称" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="cityName" fixed
+          label="院校所在地" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="affiliation"
+          label="院校隶属" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="grade"
+          label="院校等级" align="center"
           width="150">
         </el-table-column>
         <!--<el-table-column
@@ -112,7 +133,10 @@
           schoolWebUrl: '',
           schoolContent: '',
           userId: '',
-          userName: ''
+          userName: '',
+          cityName: '',
+          affiliation: '',
+          grade: ''
         },
         total: 0
       }

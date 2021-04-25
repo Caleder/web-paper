@@ -9,10 +9,6 @@
         <el-input type="text" disabled v-model="form.username">
         </el-input>
       </el-form-item>
-      <el-form-item prop="password">
-        <el-input :type="pwdType" prefix-icon="el-icon-lock" placeholder="请输入原密码" v-model="form.password">
-        </el-input>
-      </el-form-item>
       <el-form-item prop="newPassword">
         <el-input :type="pwdTypeRe" prefix-icon="el-icon-lock" placeholder="请输入新密码" v-model="form.newPassword">
         </el-input>
@@ -37,17 +33,12 @@
         pwdType:"password",
         pwdTypeRe:"password",
         form: {
-          password: '',
           newPassword: '',
           reNewPassword: '',
           id: '',
           username: ''
         },
         rules: {
-          password: [
-            {required: true, message: '请输入原密码', trigger: 'blur'},
-            {min: 3, max: 16, message: '长度在3-16字符', trigger: 'blur'}
-          ],
           newPassword: [
             {required: true, message: '请输入新密码', trigger: 'blur'},
             {min: 3, max: 16, message: '长度在3-16字符', trigger: 'blur'}
@@ -74,22 +65,20 @@
     },
     methods: {
       editPwd(form) {
-        if (!form.newPassword || !form.reNewPassword
-          || !form.password) {
+        if (!form.newPassword || !form.reNewPassword) {
           return this.$layer.msg("请添加对应信息！");
         }
         if(this.form.newPassword != this.form.reNewPassword){
           return this.$message.error('两次输入的新密码不一致');
         }
+        if(this.form.reNewPassword != this.form.newPassword){
+          return this.$message.error('两次输入新密码不一致');
+        }
+        /*this.form.password = this.form.reNewPassword;*/
         this.$axios.post("/user/updateUserPwd", this.form)
           .then((result) => {
-            if(result.data.code === 500){
-              return this.$layer.msg('原密码错误');
-            } else {
-              this.$layer.close(this.layerid);
-              this.$layer.msg('修改密码成功');
-              this.$router.push('/login');
-            }
+            this.$layer.close(this.layerid);
+            this.$layer.msg('修改密码成功');
           });
       }
     },

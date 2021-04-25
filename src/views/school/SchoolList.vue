@@ -10,18 +10,12 @@
       <el-form-item label="院校排名">
         <el-input v-model="queryData.schoolRank" placeholder="请输入院校排名"></el-input>
       </el-form-item>
-      <el-form-item label="院校联系方式">
-        <el-input v-model="queryData.schoolTel" placeholder="请输入院校联系方式"></el-input>
+      <el-form-item label="院校隶属">
+        <el-input v-model="queryData.affiliation" placeholder="请输入院校隶属"></el-input>
       </el-form-item>
-      <el-form-item label="院校院网">
-        <el-input v-model="queryData.schoolWebUrl" placeholder="请输入院校院网"></el-input>
+      <el-form-item label="院校等级">
+        <el-input v-model="queryData.grade" placeholder="请输入院校等级"></el-input>
       </el-form-item>
-      <!--<el-form-item label="账号状态">
-        <el-select v-model="queryData.enabled" placeholder="状态">
-          <el-option label="启用" value="true"></el-option>
-          <el-option label="停用" value="false"></el-option>
-        </el-select>
-      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" @click="getTableInfo">查询</el-button>
         <el-button @click="resetForm('queryData')">重置</el-button>
@@ -157,7 +151,10 @@
           size: 5,
           schoolWebUrl: '',
           schoolContent: '',
-          cityName: ''
+          grade: '',
+          affiliation: '',
+          cityName: '',
+          userId: window.sessionStorage.getItem("userId")
         },
         total: 0,
         role: window.sessionStorage.getItem("userRole")
@@ -215,6 +212,7 @@
       makeCollected: function (id) {
         var params = new URLSearchParams();
         params.append("schoolId", id);
+        params.append("userId", window.sessionStorage.getItem("userId"));
         const url = "/schoolCollect/addSchoolCollect";
         this.$axios({
           method: 'post',
@@ -267,7 +265,7 @@
           if (data.code != 200) {
             this.$message.error(data.message);
           }
-          this.tableData = data.data.page;
+          this.tableData = data.data.pageInfo.list;
           this.total = data.data.pageTotal;
         });
       },

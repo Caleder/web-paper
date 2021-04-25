@@ -23,10 +23,11 @@
           <el-menu-item index="1">
             <template slot="title">
               <i class="el-icon-s-help"></i>
-              <router-link to="/index" style="text-decoration: none; color: inherit;">首页</router-link>
+              <router-link v-if="role === 'OTHER'" to="/otherIndex" style="text-decoration: none; color: inherit;">首页</router-link>
+              <router-link v-if="role === 'ADMIN'" to="/adminIndex" style="text-decoration: none; color: inherit;">首页</router-link>
             </template>
           </el-menu-item>
-          <el-submenu index="2">
+          <el-submenu index="2" v-if="role === 'ADMIN'">
             <template slot="title">
               <i class="el-icon-user-solid"></i>
               <span>用户管理</span>
@@ -39,7 +40,8 @@
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-office-building"></i>
-              <span>院校管理</span>
+              <span v-if="role === 'ADMIN'">院校管理</span>
+              <span v-if="role !== 'ADMIN'">院校查询</span>
             </template>
             <el-menu-item index="3-1">
               <i class="el-icon-school"></i>
@@ -47,7 +49,12 @@
             </el-menu-item>
             <el-menu-item index="3-2">
               <i class="el-icon-school"></i>
-              <router-link to="/school/schoolApplyList" style="text-decoration: none; color: inherit;">院校初复试
+              <router-link to="/school/schoolBeginList" style="text-decoration: none; color: inherit;">院校初试
+              </router-link>
+            </el-menu-item>
+            <el-menu-item index="3-3">
+              <i class="el-icon-school"></i>
+              <router-link to="/school/schoolRepeatList" style="text-decoration: none; color: inherit;">院校复试
               </router-link>
             </el-menu-item>
           </el-submenu>
@@ -64,11 +71,13 @@
           <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-setting"></i>
-              <span>个人中心</span>
+              <span v-if="role === 'ADMIN'">管理员中心</span>
+              <span v-if="role !== 'ADMIN'">个人中心</span>
             </template>
             <el-menu-item index="5-1">
               <i class="el-icon-thumb"></i>
-              <router-link to="/user/userMsg" style="text-decoration: none; color: inherit;">个人信息</router-link>
+              <router-link v-if="role === 'ADMIN'" to="/user/userMsg" style="text-decoration: none; color: inherit;">管理员信息</router-link>
+              <router-link v-if="role !== 'ADMIN'" to="/user/userMsg" style="text-decoration: none; color: inherit;">个人信息</router-link>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -85,7 +94,8 @@
     name: "Main.vue",
     data() {
       return {
-        user: window.sessionStorage.getItem('user')
+        user: window.sessionStorage.getItem('user'),
+        role: window.sessionStorage.getItem('userRole')
       }
     },
     methods: {
@@ -107,7 +117,8 @@
 
   .el-aside {
     background-color: #333744; /*#333744*/
-    height: 857px;
+    min-height: 857px;
+    height: auto;
     min-width: 240px;
   }
 
@@ -122,8 +133,9 @@
   }
 
   .el-logo {
-    position: fixed;
+    position: absolute;
     left: 0;
     top: 1%;
+
   }
 </style>

@@ -1,30 +1,27 @@
 <template>
   <div>
     <el-form :inline="true" ref="queryData" :model="queryData" class="demo-form-inline">
-      <el-form-item label="姓名">
-        <el-input v-model="queryData.name" placeholder="请输入姓名"></el-input>
+      <el-form-item label="院校名称">
+        <el-input v-model="queryData.schoolName" placeholder="请输入院校名称"></el-input>
       </el-form-item>
-      <el-form-item label="用户名">
-        <el-input v-model="queryData.username" placeholder="请输入用户名"></el-input>
+      <el-form-item label="学年">
+        <el-input v-model="queryData.schoolYear" placeholder="请输入学年"></el-input>
+        <!--<el-select v-model="queryData.schoolYear" placeholder="学年">
+          <el-option v-for="item in schoolYearList" :key="item" :label="item" :value="item"></el-option>
+        </el-select>-->
       </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model="queryData.mobile" placeholder="请输入手机号"></el-input>
+      <el-form-item label="学院名称">
+        <el-input v-model="queryData.deptName" placeholder="请输入学院名称"></el-input>
       </el-form-item>
-      <!--<el-form-item label="座右铭">
-        <el-input v-model="queryData.motto" placeholder="请输入座右铭"></el-input>
-      </el-form-item>-->
-      <el-form-item label="账号状态">
-        <el-select v-model="queryData.enabled" placeholder="状态">
-          <el-option label="启用" value="true"></el-option>
-          <el-option label="停用" value="false"></el-option>
-        </el-select>
+      <el-form-item label="专业名称">
+        <el-input v-model="queryData.majorName" placeholder="请输入专业名称"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getTableInfo">查询</el-button>
         <el-button @click="resetForm('queryData')">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-button v-if="role === 'ADMIN'" type="primary" icon="el-icon-plus" style="margin-left: 1500px;margin-bottom: 15px;" @click="addUser()">新增用户</el-button>
+    <el-button v-if="role === 'ADMIN'" type="primary" icon="el-icon-plus" style="margin-left: 1450px;margin-bottom: 15px;" @click="addSchoolRepeat()">新增院校复试</el-button>
     <el-card>
       <el-table class="el-table"
                 :data="tableData"
@@ -33,26 +30,56 @@
         <el-table-column
           prop="id" fixed
           label="ID" align="center"
-          width="250">
-        </el-table-column>
-        <el-table-column
-          prop="username" fixed
-          label="用户名" align="center"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="name" fixed
-          label="姓名" align="center"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="motto"
-          label="座右铭" align="center"
           width="200">
         </el-table-column>
         <el-table-column
-          prop="mobile"
-          label="手机号" align="center"
+          prop="schoolName" fixed
+          label="院校名称" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="schoolYear" fixed
+          label="学年" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="deptName"
+          label="学院名称" align="center"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="majorName"
+          label="专业名称" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="repeatContent"
+          label="复试专业内容" align="center"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="repeatBook"
+          label="复试专业参考书" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="score"
+          label="复试线" align="center"
+          width="150">
+        </el-table-column>
+        <el-table-column
+          prop="schoolApply"
+          label="报考人数" align="center"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="schoolAdmit"
+          label="院校录取人数" align="center"
+          width="200">
+        </el-table-column>
+        <el-table-column
+          prop="schoolApplyAdmit"
+          label="院校报录比(%)" align="center"
           width="200">
         </el-table-column>
         <el-table-column
@@ -63,24 +90,23 @@
         <el-table-column
           prop="enabled"
           label="状态" align="center"
-          width="180">
+          width="150">
           <template slot-scope="scope">
             <el-switch v-if="role === 'ADMIN'" @change="makeEnabled(scope.row)"
-              v-model="scope.row.enabled">
+                       v-model="scope.row.enabled">
             </el-switch>
             <el-switch disabled v-else-if="role === 'OTHER'"
-              v-model="scope.row.enabled">
+                       v-model="scope.row.enabled">
             </el-switch>
           </template>
         </el-table-column>
         <el-table-column
           fixed="right" v-if="role === 'ADMIN'"
           label="操作" align="center"
-          width="220">
+          width="120">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="editPwd(scope.row.id,scope.row.username)" v-if="role === 'ADMIN'" size="small">修改密码</el-button>
-            <el-button type="success" icon="el-icon-edit" v-if="scope.row.enabled === true && role === 'ADMIN'" size="small" @click="editUser(scope.row.username)">编辑</el-button>
-            <el-button disabled type="warning" v-if="scope.row.enabled === false" size="small">激活状态</el-button>
+            <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
+            <el-button type="success" size="small" icon="el-icon-edit" @click="editSchoolRepeat(scope.row.id)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -98,23 +124,22 @@
 </template>
 
 <script>
-  import EditUser from '@/views/user/EditUser';
-  import AddUser from '@/views/user/AddUser';
-  import EditPwdAdmin from '@/views/user/EditPwdAdmin';
+  import AddSchoolRepeat from '@/views/school/AddSchoolRepeat';
+  import EditSchoolRepeat from '@/views/school/EditSchoolRepeat';
   export default {
-    inject: ['reload'],
     data() {
       return {
         tableData: [],
         queryData: {
-          name: '',
-          username: '',
-          enabled: '',
+          schoolName: '',
+          deptName: '',
+          majorName: '',
           current: 1,
           size: 5,
-          mobile: ''
+          schoolYear: ''
         },
         total: 0,
+        schoolYearList: [],
         role: window.sessionStorage.getItem("userRole")
       }
     },
@@ -122,28 +147,8 @@
       this.getTableInfo();
     },
     methods: {
-      editPwd(id,username){
-        const user = {
-          id: id,
-          username: username
-        }
-        this.$layer.iframe({
-          type:1,
-          title:"修改密码",
-          area:['600px','500px'],
-          shade:true,
-          offset:'auto',
-          content:{
-            content:EditPwdAdmin,
-            parent:this,
-            data:{
-              info:{user:user}// 传递的要编辑内容的id值
-            }
-          }
-        })
-      },
-      makeEnabled(userInfo) {
-        this.$axios.post("/user/updateUser", userInfo)
+      makeEnabled(schoolInfo) {
+        this.$axios.post("/schoolRepeat/updateSchoolRepeat", schoolInfo)
           .then((result) => {
             let data = result.data;
             if (data.code != 200) {
@@ -152,6 +157,34 @@
             /*this.reload();*/
           });
       },
+      addSchoolRepeat: function () {
+        this.$layer.iframe({
+          type:1,
+          title:"新增院校复试",
+          area:['600px','750px'],
+          shade:true,
+          offset:'auto',
+          content:{
+            content:AddSchoolRepeat
+          }
+        })
+      },
+      editSchoolRepeat: function (id) {
+        this.$layer.iframe({
+          type:2,
+          title:"编辑院校复试",
+          area:['600px','800px'],
+          shade:true,
+          offset:'auto',
+          content:{
+            content:EditSchoolRepeat,//传递的编辑组件主线
+            parent:this,
+            data:{
+              info:{id:id}// 传递的要编辑内容的id值
+            }
+          }
+        })
+      },
       resetForm: function (queryData) {
         this[queryData] = {};
         this.$refs[queryData].resetFields();
@@ -159,39 +192,11 @@
         this.queryData.size = 5;
         this.getTableInfo();
       },
-    addUser: function () {
-      this.$layer.iframe({
-        type:1,
-        title:"新增用户",
-        area:['600px','610px'],
-        shade:true,
-        offset:'auto',
-        content:{
-          content:AddUser
-        }
-      })
-    },
-    editUser: function (username) {
-      this.$layer.iframe({
-        type:2,
-        title:"编辑",
-        area:['600px','500px'],
-        shade:true,
-        offset:'auto',
-        content:{
-          content:EditUser,//传递的编辑组件主线
-          parent:this,
-          data:{
-            info:{username:username}// 传递的要编辑内容的id值
-          }
-        }
-      })
-    },
       handleClick(row) {
         console.log(row);
       },
       getTableInfo() {
-        this.$axios.get('/user/list', {params: this.queryData}).then((result) => {
+        this.$axios.get('/schoolRepeat/list', {params: this.queryData}).then((result) => {
           let data = result.data;
           if (data.code != 200) {
             this.$message.error(data.message);
