@@ -49,6 +49,12 @@
           prop="motto"
           label="座右铭" align="center"
           width="200">
+          <template slot-scope="scope">
+            <el-tooltip placement="top">
+              <div style="width: 150px;" slot="content">{{scope.row.motto}}</div>
+              <el-button style="width: 188px;border: #EAEDF1 0 solid">{{scope.row.motto}}</el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column
           prop="mobile"
@@ -163,7 +169,7 @@
       this.$layer.iframe({
         type:1,
         title:"新增用户",
-        area:['600px','610px'],
+        area:['600px','620px'],
         shade:true,
         offset:'auto',
         content:{

@@ -22,7 +22,7 @@
         <el-input prefix-icon="el-icon-phone" placeholder="请输入手机号" v-model="form.mobile"></el-input>
       </el-form-item>
       <el-form-item prop="motto">
-        <el-input prefix-icon="el-icon-edit-outline" placeholder="请输入座右铭" v-model="form.motto"></el-input>
+        <el-input type="textarea" prefix-icon="el-icon-edit-outline" placeholder="请输入座右铭" v-model="form.motto"></el-input>
       </el-form-item>
       <el-form-item prop="role">
         <el-select v-model="form.role" placeholder="角色">
