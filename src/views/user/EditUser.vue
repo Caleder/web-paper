@@ -10,11 +10,11 @@
       <el-form-item label="姓名">
         <el-input placeholder="请输入姓名" v-model="manage.name"/>
       </el-form-item>
-      <el-form-item label="座右铭">
-        <el-input placeholder="请输入座右铭" v-model="manage.motto"/>
-      </el-form-item>
       <el-form-item label="手机号">
         <el-input placeholder="请输入手机号" v-model="manage.mobile"/>
+      </el-form-item>
+      <el-form-item label="座右铭">
+        <el-input placeholder="请输入座右铭" v-model="manage.motto"/>
       </el-form-item>
       <el-form-item class="login-button">
         <el-button type="primary" @click="editManage(manage)">立即提交</el-button>

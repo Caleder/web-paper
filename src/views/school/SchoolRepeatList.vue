@@ -56,11 +56,23 @@
           prop="repeatContent"
           label="复试专业内容" align="center"
           width="200">
+          <template slot-scope="scope">
+            <el-tooltip placement="top">
+              <div style="width: 150px;" slot="content">{{scope.row.repeatContent}}</div>
+              <el-button style="width: 200px;border: #EAEDF1 0 solid">{{scope.row.repeatContent}}</el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column
           prop="repeatBook"
           label="复试专业参考书" align="center"
-          width="150">
+          width="200">
+          <template slot-scope="scope">
+            <el-tooltip placement="top">
+              <div style="width: 150px;" slot="content">{{scope.row.repeatBook}}</div>
+              <el-button style="width: 200px;border: #EAEDF1 0 solid">{{scope.row.repeatBook}}</el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column
           prop="score"

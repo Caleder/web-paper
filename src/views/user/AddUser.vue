@@ -15,11 +15,11 @@
           <i slot="suffix" class="el-icon-view" @click="showPwdRe"></i>
         </el-input>
       </el-form-item>
-      <el-form-item prop="mobile">
-        <el-input prefix-icon="el-icon-phone" placeholder="请输入手机号" v-model="form.mobile"></el-input>
-      </el-form-item>
       <el-form-item prop="name">
         <el-input prefix-icon="el-icon-user" placeholder="请输入姓名" v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item prop="mobile">
+        <el-input prefix-icon="el-icon-phone" placeholder="请输入手机号" v-model="form.mobile"></el-input>
       </el-form-item>
       <el-form-item prop="motto">
         <el-input prefix-icon="el-icon-edit-outline" placeholder="请输入座右铭" v-model="form.motto"></el-input>

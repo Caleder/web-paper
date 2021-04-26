@@ -61,11 +61,23 @@
           prop="beginContent"
           label="初试专业内容" align="center"
           width="200">
+          <template slot-scope="scope">
+            <el-tooltip placement="top">
+              <div style="width: 150px;" slot="content">{{scope.row.beginContent}}</div>
+              <el-button style="width: 200px;border: #EAEDF1 0 solid">{{scope.row.beginContent}}</el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column
           prop="beginBook"
           label="初试专业参考书" align="center"
           width="200">
+          <template slot-scope="scope">
+            <el-tooltip placement="top">
+              <div style="width: 150px;" slot="content">{{scope.row.beginBook}}</div>
+              <el-button style="width: 200px;border: #EAEDF1 0 solid">{{scope.row.beginBook}}</el-button>
+            </el-tooltip>
+          </template>
         </el-table-column>
         <el-table-column
           prop="gmtCreate"
